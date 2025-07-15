@@ -33,7 +33,7 @@
                                     <a href="<?php echo BASE_URL; ?>pages/laporan_stok/">Laporan Stok</a>
                         </li>
                         <li>
-                                    <a href="#">Laporan Penjualan</a>
+                                    <a href="<?php echo BASE_URL; ?>pages/laporan_penjualan/">Laporan Penjualan</a>
                         </li>
                         <li>
                                     <a href="#">Laporan Produk BS</a>
