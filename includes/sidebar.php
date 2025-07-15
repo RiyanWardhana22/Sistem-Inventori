@@ -22,6 +22,9 @@
                         </li>
             </ul>
 
+            <a href="<?php echo BASE_URL; ?>pages/stok_opname/">
+                        <i class="fas fa-clipboard-check me-2"></i> Stok Opname
+            </a>
             <a href="#">
                         <i class="fas fa-chart-line me-2"></i> Laporan & Analisis
             </a>
