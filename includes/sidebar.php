@@ -59,4 +59,15 @@ $current_page = $_SERVER['REQUEST_URI'];
                                     </li>
                         </ul>
             <?php endif; ?>
+
+            <?php if ($_SESSION['level'] == 'admin'): ?>
+                        <a href="#settingsSubmenu" data-bs-toggle="collapse" class="dropdown-toggle collapsed" aria-expanded="false">
+                                    <i class="fas fa-cog me-2"></i> Settings
+                        </a>
+                        <ul class="collapse list-unstyled" id="settingsSubmenu">
+                                    <li>
+                                                <a href="<?php echo BASE_URL; ?>pages/data_staf/">Data Staf</a>
+                                    </li>
+                        </ul>
+            <?php endif; ?>
 </div>
