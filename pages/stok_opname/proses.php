@@ -1,34 +1,41 @@
 <?php
 require_once(__DIR__ . '/../../config/config.php');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'sesuaikan') {
-            $id_produk = $_POST['id_produk'];
-            $stok_fisik = $_POST['stok_fisik'];
-            $selisih = $_POST['selisih'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $action = $_POST['action'] ?? '';
 
-            if (!isset($id_produk) || !isset($stok_fisik) || !is_numeric($stok_fisik) || $stok_fisik < 0) {
-                        redirect(BASE_URL . 'pages/stok_opname/');
+            if ($action == 'tambah') {
+                        $stmt = $pdo->prepare("INSERT INTO opname_produk (id_produk, tanggal_opname, kode, stok_awal, stok_akhir, penjualan, bs) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                        $stmt->execute([
+                                    $_POST['id_produk'],
+                                    $_POST['tanggal_opname'],
+                                    $_POST['kode'],
+                                    $_POST['stok_awal'],
+                                    $_POST['stok_akhir'],
+                                    $_POST['penjualan'],
+                                    $_POST['bs']
+                        ]);
+            } elseif ($action == 'edit') {
+                        $stmt = $pdo->prepare("UPDATE opname_produk SET id_produk=?, tanggal_opname=?, kode=?, stok_awal=?, stok_akhir=?, penjualan=?, bs=? WHERE id_opname=?");
+                        $stmt->execute([
+                                    $_POST['id_produk'],
+                                    $_POST['tanggal_opname'],
+                                    $_POST['kode'],
+                                    $_POST['stok_awal'],
+                                    $_POST['stok_akhir'],
+                                    $_POST['penjualan'],
+                                    $_POST['bs'],
+                                    $_POST['id_opname']
+                        ]);
             }
-
-            $pdo->beginTransaction();
-
-            try {
-                        $stmtUpdate = $pdo->prepare("UPDATE produk SET stok_saat_ini = ? WHERE id_produk = ?");
-                        $stmtUpdate->execute([$stok_fisik, $id_produk]);
-
-                        if ($selisih != 0) {
-                                    $keterangan = "Stok Opname";
-                                    $stmtInsert = $pdo->prepare("INSERT INTO riwayat_stok (id_produk, jumlah, tipe_transaksi, keterangan) VALUES (?, ?, 'penyesuaian', ?)");
-                                    $stmtInsert->execute([$id_produk, $selisih, $keterangan]);
-                        }
-
-                        $pdo->commit();
-            } catch (Exception $e) {
-                        $pdo->rollBack();
-                        die("Error: Gagal melakukan penyesuaian stok. " . $e->getMessage());
-            }
-
-            redirect(BASE_URL . 'pages/stok_opname/');
-} else {
-            redirect(BASE_URL);
 }
+
+if (isset($_GET['action']) && $_GET['action'] == 'hapus') {
+            $id_opname = $_GET['id'] ?? null;
+            if ($id_opname) {
+                        $stmt = $pdo->prepare("DELETE FROM opname_produk WHERE id_opname = ?");
+                        $stmt->execute([$id_opname]);
+            }
+}
+
+redirect(BASE_URL . 'pages/stok_opname/');

@@ -3,43 +3,48 @@ include_once(__DIR__ . '/../../includes/header.php');
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="h3">Stok Opname (Penyesuaian Stok)</h1>
+            <h1 class="h3">Data Opname Produk</h1>
+            <a href="tambah.php" class="btn btn-primary">
+                        <i class="fas fa-plus-circle me-2"></i> Tambah Data Opname
+            </a>
 </div>
 
 <div class="card">
             <div class="card-body">
-                        <p class="card-text">Isi kolom "Stok Fisik" dengan hasil hitungan manual di lapangan. Selisih akan terhitung otomatis. Klik "Sesuaikan" pada setiap baris untuk memperbarui stok sistem.</p>
                         <div class="table-responsive">
                                     <table class="table table-striped table-bordered">
                                                 <thead class="table-dark">
                                                             <tr>
-                                                                        <th style="width: 30%;">Nama Produk</th>
-                                                                        <th class="text-center">Stok Sistem</th>
-                                                                        <th class="text-center" style="width: 15%;">Stok Fisik</th>
-                                                                        <th class="text-center">Selisih</th>
-                                                                        <th class="text-center" style="width: 15%;">Aksi</th>
+                                                                        <th>Tanggal</th>
+                                                                        <th>Nama Produk</th>
+                                                                        <th>Kode</th>
+                                                                        <th>Stok Awal</th>
+                                                                        <th>Stok Akhir</th>
+                                                                        <th>Penjualan</th>
+                                                                        <th>BS</th>
+                                                                        <th class="text-center">Aksi</th>
                                                             </tr>
                                                 </thead>
                                                 <tbody>
                                                             <?php
-                                                            $queryProduk = $pdo->query("SELECT id_produk, nama_produk, stok_saat_ini FROM produk ORDER BY nama_produk ASC");
-                                                            while ($produk = $queryProduk->fetch(PDO::FETCH_ASSOC)) {
+                                                            $query = $pdo->query("SELECT op.*, p.nama_produk FROM opname_produk op JOIN produk p ON op.id_produk = p.id_produk ORDER BY op.tanggal_opname DESC");
+                                                            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                                                             ?>
-                                                                        <tr class="align-middle">
-                                                                                    <td><?php echo htmlspecialchars($produk['nama_produk']); ?></td>
-                                                                                    <td class="text-center fs-5 fw-bold stok-sistem"><?php echo $produk['stok_saat_ini']; ?></td>
-                                                                                    <td>
-                                                                                                <form action="proses.php" method="POST" class="form-opname">
-                                                                                                            <input type="number" class="form-control form-control-lg text-center stok-fisik" name="stok_fisik" min="0" required>
-                                                                                                            <input type="hidden" name="id_produk" value="<?php echo $produk['id_produk']; ?>">
-                                                                                                            <input type="hidden" class="selisih-hidden" name="selisih" value="0">
-                                                                                    </td>
-                                                                                    <td class="text-center fs-5 fw-bold selisih">0</td>
+                                                                        <tr>
+                                                                                    <td><?php echo date('d/m/Y', strtotime($row['tanggal_opname'])); ?></td>
+                                                                                    <td><?php echo htmlspecialchars($row['nama_produk']); ?></td>
+                                                                                    <td><?php echo htmlspecialchars($row['kode']); ?></td>
+                                                                                    <td><?php echo htmlspecialchars($row['stok_awal']); ?></td>
+                                                                                    <td><?php echo htmlspecialchars($row['stok_akhir']); ?></td>
+                                                                                    <td><?php echo htmlspecialchars($row['penjualan']); ?></td>
+                                                                                    <td><?php echo htmlspecialchars($row['bs']); ?></td>
                                                                                     <td class="text-center">
-                                                                                                <button type="submit" name="action" value="sesuaikan" class="btn btn-primary">
-                                                                                                            <i class="fas fa-sync-alt"></i> Sesuaikan
-                                                                                                </button>
-                                                                                                </form>
+                                                                                                <a href="edit.php?id=<?php echo $row['id_opname']; ?>" class="btn btn-sm btn-warning">
+                                                                                                            <i class="fas fa-edit"></i>
+                                                                                                </a>
+                                                                                                <a href="proses.php?action=hapus&id=<?php echo $row['id_opname']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?');">
+                                                                                                            <i class="fas fa-trash"></i>
+                                                                                                </a>
                                                                                     </td>
                                                                         </tr>
                                                             <?php } ?>
@@ -48,38 +53,6 @@ include_once(__DIR__ . '/../../includes/header.php');
                         </div>
             </div>
 </div>
-
-<script>
-            document.addEventListener('DOMContentLoaded', function() {
-                        const rows = document.querySelectorAll('tbody tr');
-                        rows.forEach(row => {
-                                    const stokSistemEl = row.querySelector('.stok-sistem');
-                                    const stokFisikEl = row.querySelector('.stok-fisik');
-                                    const selisihEl = row.querySelector('.selisih');
-                                    const selisihHiddenEl = row.querySelector('.selisih-hidden');
-
-                                    stokFisikEl.addEventListener('input', function() {
-                                                const stokSistem = parseInt(stokSistemEl.textContent, 10) || 0;
-                                                const stokFisik = parseInt(this.value, 10) || 0;
-                                                const selisih = stokFisik - stokSistem;
-
-                                                selisihEl.textContent = selisih;
-                                                selisihHiddenEl.value = selisih;
-
-                                                if (selisih < 0) {
-                                                            selisihEl.classList.add('text-danger');
-                                                            selisihEl.classList.remove('text-success');
-                                                } else if (selisih > 0) {
-                                                            selisihEl.classList.add('text-success');
-                                                            selisihEl.classList.remove('text-danger');
-                                                            selisihEl.textContent = '+' + selisih;
-                                                } else {
-                                                            selisihEl.classList.remove('text-danger', 'text-success');
-                                                }
-                                    });
-                        });
-            });
-</script>
 
 <?php
 include_once(__DIR__ . '/../../includes/footer.php');
