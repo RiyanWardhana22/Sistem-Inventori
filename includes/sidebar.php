@@ -25,22 +25,18 @@ $current_page = $_SERVER['REQUEST_URI'];
 
             <?php if ($_SESSION['level'] == 'admin'): ?>
                         <?php
-                        $is_laporan_active = strpos($current_page, 'laporan_stok') !== false ||
-                                    strpos($current_page, 'laporan_penjualan') !== false ||
-                                    strpos($current_page, 'laporan_bs') !== false;
+                        $is_laporan_active = strpos($current_page, 'laporan_opname') !== false ||
+                                    strpos($current_page, 'laporan_bs_analisis') !== false;
                         ?>
                         <a href="#laporanSubmenu" data-bs-toggle="collapse" class="dropdown-toggle <?php echo $is_laporan_active ? '' : 'collapsed'; ?>" aria-expanded="<?php echo $is_laporan_active ? 'true' : 'false'; ?>">
                                     <i class="fas fa-chart-line me-2"></i> Laporan & Analisis
                         </a>
                         <ul class="collapse list-unstyled <?php echo $is_laporan_active ? 'show' : ''; ?>" id="laporanSubmenu">
                                     <li>
-                                                <a href="<?php echo BASE_URL; ?>pages/laporan_stok/" class="<?php echo (strpos($current_page, 'laporan_stok') !== false) ? 'active-child' : ''; ?>">Laporan Stok</a>
+                                                <a href="<?php echo BASE_URL; ?>pages/laporan_opname/" class="<?php echo (strpos($current_page, 'laporan_opname') !== false) ? 'active-child' : ''; ?>">Laporan Opname</a>
                                     </li>
                                     <li>
-                                                <a href="<?php echo BASE_URL; ?>pages/laporan_penjualan/" class="<?php echo (strpos($current_page, 'laporan_penjualan') !== false) ? 'active-child' : ''; ?>">Laporan Penjualan</a>
-                                    </li>
-                                    <li>
-                                                <a href="<?php echo BASE_URL; ?>pages/laporan_bs/" class="<?php echo (strpos($current_page, 'laporan_bs') !== false) ? 'active-child' : ''; ?>">Laporan Produk BS</a>
+                                                <a href="#">Analisis Produk BS</a>
                                     </li>
                         </ul>
             <?php endif; ?>
