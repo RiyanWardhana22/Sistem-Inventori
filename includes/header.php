@@ -17,9 +17,8 @@ require_once(__DIR__ . '/../config/config.php');
 
             <div class="top-header">
                         <div>
-                                    <h5 class="mb-0">Dashboard</h5>
                         </div>
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-end">
                                     <div class="me-3">
                                                 <span class="fw-bold">Riyan Wardhana</span><br>
                                                 <small class="text-muted">Admin</small>

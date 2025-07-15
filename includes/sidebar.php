@@ -15,7 +15,7 @@
                                     <a href="<?php echo BASE_URL; ?>pages/stok_masuk/">Stok Masuk (Produksi)</a>
                         </li>
                         <li>
-                                    <a href="#">Stok Keluar (Penjualan)</a>
+                                    <a href="<?php echo BASE_URL; ?>pages/stok_keluar/">Stok Keluar (Penjualan)</a>
                         </li>
                         <li>
                                     <a href="#">Stok BS (Rusak)</a>
