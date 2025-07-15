@@ -15,20 +15,23 @@ require_once(__DIR__ . '/auth_check.php');
 </head>
 
 <body>
-
             <div class="top-header">
                         <div>
                         </div>
-                        <div class="d-flex align-items-end">
-                                    <div class="me-3">
-                                                <span class="fw-bold">Riyan Wardhana</span><br>
-                                                <small class="text-muted">Admin</small>
-                                    </div>
+
+                        <div class="dropdown">
+                                    <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <div class="text-end">
+                                                            <span class="fw-bold"><?php echo htmlspecialchars($_SESSION['nama_lengkap']); ?></span><br>
+                                                            <small class="text-muted text-capitalize"><?php echo htmlspecialchars($_SESSION['level']); ?></small>
+                                                </div>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end text-small" aria-labelledby="dropdownUser">
+                                                <li><a class="dropdown-item" href="<?php echo BASE_URL; ?>auth.php?action=logout"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                                    </ul>
                         </div>
             </div>
 
             <div class="d-flex">
-                        <?php include_once('sidebar.php');
-                        ?>
-
-                        <div class="main-content flex-grow-1">
+                        <?php include_once('sidebar.php'); ?>
+                        <div class="main-content flex-grow-1 p-4">
