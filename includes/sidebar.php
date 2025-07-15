@@ -6,6 +6,22 @@
             <a href="<?php echo BASE_URL; ?>pages/produk/">
                         <i class="fas fa-box-open me-2"></i> Manajemen Produk
             </a>
+
+            <a href="#stokSubmenu" data-bs-toggle="collapse" class="dropdown-toggle">
+                        <i class="fas fa-exchange-alt me-2"></i> Transaksi Stok
+            </a>
+            <ul class="collapse list-unstyled" id="stokSubmenu">
+                        <li>
+                                    <a href="<?php echo BASE_URL; ?>pages/stok_masuk/">Stok Masuk (Produksi)</a>
+                        </li>
+                        <li>
+                                    <a href="#">Stok Keluar (Penjualan)</a>
+                        </li>
+                        <li>
+                                    <a href="#">Stok BS (Rusak)</a>
+                        </li>
+            </ul>
+
             <a href="#">
                         <i class="fas fa-chart-line me-2"></i> Laporan & Analisis
             </a>
