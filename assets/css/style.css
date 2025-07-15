@@ -1,0 +1,57 @@
+body {
+  background-color: #f8f9fa; /* Warna latar belakang konten */
+}
+
+/* --- Top Header Styling --- */
+.top-header {
+  height: 60px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #dee2e6;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between; /* Mendorong item ke ujung */
+  align-items: center;
+  position: fixed; /* Membuat header tetap di atas */
+  top: 0;
+  left: 240px; /* Sesuaikan dengan lebar sidebar */
+  right: 0;
+  z-index: 1000;
+}
+
+/* --- Sidebar Styling --- */
+.sidebar {
+  width: 240px;
+  height: 100vh; /* Tinggi penuh layar */
+  position: fixed; /* Sidebar tetap di tempatnya */
+  top: 0;
+  left: 0;
+  background-color: #212529; /* Warna gelap sidebar */
+  padding-top: 20px;
+  z-index: 1001;
+}
+
+.sidebar a {
+  padding: 15px 20px;
+  text-decoration: none;
+  font-size: 1rem;
+  color: #adb5bd; /* Warna teks link */
+  display: block; /* Membuat link memenuhi lebar */
+  transition: background-color 0.3s;
+}
+
+.sidebar a:hover {
+  background-color: #343a40; /* Warna saat hover */
+  color: #ffffff;
+}
+
+.sidebar a.active {
+  background-color: #0d6efd; /* Warna biru untuk link aktif */
+  color: #ffffff;
+}
+
+/* --- Main Content Styling --- */
+.main-content {
+  margin-top: 60px; /* Memberi jarak dari top-header */
+  margin-left: 240px; /* Memberi jarak dari sidebar */
+  padding: 2rem;
+}
