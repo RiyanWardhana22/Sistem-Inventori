@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once(__DIR__ . '/../vendor/autoload.php');
 define('BASE_URL', 'http://localhost/sistem-inventori/');
 
 define('DB_HOST', 'localhost');
