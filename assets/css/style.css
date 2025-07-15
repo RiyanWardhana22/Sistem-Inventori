@@ -1,19 +1,18 @@
 body {
-  background-color: #f8f9fa; /* Warna latar belakang konten */
+  background-color: #f8f9fa;
 }
 
-/* --- Top Header Styling --- */
 .top-header {
   height: 60px;
   background-color: #ffffff;
   border-bottom: 1px solid #dee2e6;
   padding: 0 20px;
   display: flex;
-  justify-content: space-between; /* Mendorong item ke ujung */
+  justify-content: space-between;
   align-items: center;
-  position: fixed; /* Membuat header tetap di atas */
+  position: fixed;
   top: 0;
-  left: 240px; /* Sesuaikan dengan lebar sidebar */
+  left: 240px;
   right: 0;
   z-index: 1000;
 }
@@ -21,11 +20,11 @@ body {
 /* --- Sidebar Styling --- */
 .sidebar {
   width: 240px;
-  height: 100vh; /* Tinggi penuh layar */
-  position: fixed; /* Sidebar tetap di tempatnya */
+  height: 100vh;
+  position: fixed;
   top: 0;
   left: 0;
-  background-color: #212529; /* Warna gelap sidebar */
+  background-color: #212529;
   padding-top: 20px;
   z-index: 1001;
 }
@@ -34,24 +33,29 @@ body {
   padding: 15px 20px;
   text-decoration: none;
   font-size: 1rem;
-  color: #adb5bd; /* Warna teks link */
-  display: block; /* Membuat link memenuhi lebar */
+  color: #adb5bd;
+  display: block;
   transition: background-color 0.3s;
 }
 
 .sidebar a:hover {
-  background-color: #343a40; /* Warna saat hover */
+  background-color: #343a40;
   color: #ffffff;
 }
 
 .sidebar a.active {
-  background-color: #0d6efd; /* Warna biru untuk link aktif */
+  background-color: #0d6efd;
+  color: #ffffff;
+}
+
+.sidebar ul li a.active-child {
+  background-color: #0c63d4;
   color: #ffffff;
 }
 
 /* --- Main Content Styling --- */
 .main-content {
-  margin-top: 60px; /* Memberi jarak dari top-header */
-  margin-left: 240px; /* Memberi jarak dari sidebar */
+  margin-top: 60px;
+  margin-left: 240px;
   padding: 2rem;
 }
