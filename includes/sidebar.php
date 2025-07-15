@@ -2,7 +2,7 @@
 $current_page = $_SERVER['REQUEST_URI'];
 ?>
 <div class="sidebar">
-            <h3 class="text-white text-center mt-3 mb-4">Silmarils</h3>
+            <h3 class="text-white text-center mt-3 mb-4"><?php echo defined('NAMA_WEBSITE') ? NAMA_WEBSITE : 'Sistem Inventori'; ?></h3>
 
             <a href="<?php echo BASE_URL; ?>" class="<?php echo (strpos($current_page, '/pages/') === false) ? 'active' : ''; ?>">
                         <i class="fas fa-tachometer-alt me-2"></i> Dashboard
@@ -67,6 +67,9 @@ $current_page = $_SERVER['REQUEST_URI'];
                         <ul class="collapse list-unstyled" id="settingsSubmenu">
                                     <li>
                                                 <a href="<?php echo BASE_URL; ?>pages/data_staf/">Data Staf</a>
+                                    </li>
+                                    <li>
+                                                <a href="<?php echo BASE_URL; ?>pages/pengaturan_web/">Pengaturan Web</a>
                                     </li>
                         </ul>
             <?php endif; ?>

@@ -10,8 +10,16 @@ define('DB_NAME', 'sistem-inventori');
 try {
             $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query_pengaturan = $pdo->query("SELECT nama_pengaturan, nilai_pengaturan FROM pengaturan");
+            while ($pengaturan = $query_pengaturan->fetch(PDO::FETCH_ASSOC)) {
+                        if (!defined($pengaturan['nama_pengaturan'])) {
+                                    define($pengaturan['nama_pengaturan'], $pengaturan['nilai_pengaturan']);
+                        }
+            }
 } catch (PDOException $e) {
-            die("ERROR: Tidak dapat terhubung ke database. " . $e->getMessage());
+            if (!defined('NAMA_WEBSITE')) define('NAMA_WEBSITE', 'Sistem Inventori');
+            if (!defined('PATH_FAVICON')) define('PATH_FAVICON', '');
 }
 
 function redirect($url)
