@@ -16,12 +16,8 @@ include_once(__DIR__ . '/../../includes/header.php');
                                                 <thead class="table-dark">
                                                             <tr>
                                                                         <th>No</th>
-                                                                        <th>Kode SKU</th>
                                                                         <th>Nama Produk</th>
-                                                                        <th>Harga Jual</th>
-                                                                        <th>Stok Saat Ini</th>
-                                                                        <th>Stok Minimal</th>
-                                                                        <th>Aksi</th>
+                                                                        <th class="text-center">Aksi</th>
                                                             </tr>
                                                 </thead>
                                                 <tbody>
@@ -32,12 +28,8 @@ include_once(__DIR__ . '/../../includes/header.php');
                                                             ?>
                                                                         <tr>
                                                                                     <td><?php echo $no++; ?></td>
-                                                                                    <td><?php echo htmlspecialchars($row['kode_sku']); ?></td>
                                                                                     <td><?php echo htmlspecialchars($row['nama_produk']); ?></td>
-                                                                                    <td><?php echo format_rupiah($row['harga_jual']); ?></td>
-                                                                                    <td><?php echo $row['stok_saat_ini']; ?> pcs</td>
-                                                                                    <td><?php echo $row['stok_minimal']; ?> pcs</td>
-                                                                                    <td>
+                                                                                    <td class="text-center">
                                                                                                 <a href="edit.php?id=<?php echo $row['id_produk']; ?>" class="btn btn-sm btn-warning">
                                                                                                             <i class="fas fa-edit"></i> Edit
                                                                                                 </a>
@@ -52,7 +44,6 @@ include_once(__DIR__ . '/../../includes/header.php');
                         </div>
             </div>
 </div>
-
 
 <?php
 include_once(__DIR__ . '/../../includes/footer.php');

@@ -3,24 +3,19 @@ require_once(__DIR__ . '/../../config/config.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $action = $_POST['action'];
+            $nama_produk = $_POST['nama_produk'];
+
+            if (empty($nama_produk)) {
+                        die("Nama produk tidak boleh kosong.");
+            }
 
             if ($action == 'tambah') {
-                        $kode_sku = $_POST['kode_sku'];
-                        $nama_produk = $_POST['nama_produk'];
-                        $harga_jual = $_POST['harga_jual'];
-                        $stok_minimal = $_POST['stok_minimal'];
-
-                        $stmt = $pdo->prepare("INSERT INTO produk (kode_sku, nama_produk, harga_jual, stok_minimal) VALUES (?, ?, ?, ?)");
-                        $stmt->execute([$kode_sku, $nama_produk, $harga_jual, $stok_minimal]);
+                        $stmt = $pdo->prepare("INSERT INTO produk (nama_produk, kode_sku, harga_jual, stok_minimal) VALUES (?, ?, ?, ?)");
+                        $stmt->execute([$nama_produk, '', 0, 0]);
             } elseif ($action == 'edit') {
                         $id_produk = $_POST['id_produk'];
-                        $kode_sku = $_POST['kode_sku'];
-                        $nama_produk = $_POST['nama_produk'];
-                        $harga_jual = $_POST['harga_jual'];
-                        $stok_minimal = $_POST['stok_minimal'];
-
-                        $stmt = $pdo->prepare("UPDATE produk SET kode_sku = ?, nama_produk = ?, harga_jual = ?, stok_minimal = ? WHERE id_produk = ?");
-                        $stmt->execute([$kode_sku, $nama_produk, $harga_jual, $stok_minimal, $id_produk]);
+                        $stmt = $pdo->prepare("UPDATE produk SET nama_produk = ? WHERE id_produk = ?");
+                        $stmt->execute([$nama_produk, $id_produk]);
             }
 }
 
