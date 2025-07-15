@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . '/../config/config.php');
+require_once(__DIR__ . '/auth_check.php');
 ?>
 <!doctype html>
 <html lang="id">
