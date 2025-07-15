@@ -25,12 +25,20 @@
             <a href="<?php echo BASE_URL; ?>pages/stok_opname/">
                         <i class="fas fa-clipboard-check me-2"></i> Stok Opname
             </a>
-            <a href="#">
+            <a href="#laporanSubmenu" data-bs-toggle="collapse" class="dropdown-toggle">
                         <i class="fas fa-chart-line me-2"></i> Laporan & Analisis
             </a>
-            <a href="#">
-                        <i class="fas fa-database me-2"></i> Data Master
-            </a>
+            <ul class="collapse list-unstyled" id="laporanSubmenu">
+                        <li>
+                                    <a href="<?php echo BASE_URL; ?>pages/laporan_stok/">Laporan Stok</a>
+                        </li>
+                        <li>
+                                    <a href="#">Laporan Penjualan</a>
+                        </li>
+                        <li>
+                                    <a href="#">Laporan Produk BS</a>
+                        </li>
+            </ul>
             <a href="#">
                         <i class="fas fa-cog me-2"></i> Settings
             </a>
