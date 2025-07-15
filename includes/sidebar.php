@@ -14,29 +14,14 @@ $current_page = $_SERVER['REQUEST_URI'];
                         </a>
             <?php endif; ?>
 
-            <?php
-            $is_transaksi_active = strpos($current_page, 'stok_masuk') !== false ||
-                        strpos($current_page, 'stok_keluar') !== false ||
-                        strpos($current_page, 'stok_bs') !== false;
-            ?>
-            <a href="#stokSubmenu" data-bs-toggle="collapse" class="dropdown-toggle <?php echo $is_transaksi_active ? '' : 'collapsed'; ?>" aria-expanded="<?php echo $is_transaksi_active ? 'true' : 'false'; ?>">
-                        <i class="fas fa-exchange-alt me-2"></i> Transaksi Stok
-            </a>
-            <ul class="collapse list-unstyled <?php echo $is_transaksi_active ? 'show' : ''; ?>" id="stokSubmenu">
-                        <li>
-                                    <a href="<?php echo BASE_URL; ?>pages/stok_masuk/" class="<?php echo (strpos($current_page, 'stok_masuk') !== false) ? 'active-child' : ''; ?>">Stok Masuk (Produksi)</a>
-                        </li>
-                        <li>
-                                    <a href="<?php echo BASE_URL; ?>pages/stok_keluar/" class="<?php echo (strpos($current_page, 'stok_keluar') !== false) ? 'active-child' : ''; ?>">Stok Keluar (Penjualan)</a>
-                        </li>
-                        <li>
-                                    <a href="<?php echo BASE_URL; ?>pages/stok_bs/" class="<?php echo (strpos($current_page, 'stok_bs') !== false) ? 'active-child' : ''; ?>">Stok BS (Rusak)</a>
-                        </li>
-            </ul>
-
             <a href="<?php echo BASE_URL; ?>pages/stok_opname/" class="<?php echo (strpos($current_page, 'pages/stok_opname') !== false) ? 'active' : ''; ?>">
                         <i class="fas fa-clipboard-check me-2"></i> Stok Opname
             </a>
+
+            <a href="<?php echo BASE_URL; ?>pages/stok_bs/" class="<?php echo (strpos($current_page, 'pages/stok_bs') !== false) ? 'active' : ''; ?>">
+                        <i class="fas fa-trash-alt me-2"></i> Stok Produk BS
+            </a>
+
 
             <?php if ($_SESSION['level'] == 'admin'): ?>
                         <?php
