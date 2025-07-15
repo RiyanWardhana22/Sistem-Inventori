@@ -1,40 +1,35 @@
 <?php
 require_once(__DIR__ . '/../../config/config.php');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'tambah_stok_bs') {
-            $id_produk = $_POST['id_produk'];
-            $jumlah_bs = $_POST['jumlah'];
-            $keterangan = $_POST['keterangan'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $action = $_POST['action'] ?? '';
 
-            if (empty($id_produk) || empty($jumlah_bs) || !is_numeric($jumlah_bs) || $jumlah_bs <= 0 || empty($keterangan)) {
-                        redirect(BASE_URL . 'pages/stok_bs/');
+            if ($action == 'tambah') {
+                        $stmt = $pdo->prepare("INSERT INTO stok_bs (id_produk, tanggal_bs, jumlah, keterangan) VALUES (?, ?, ?, ?)");
+                        $stmt->execute([
+                                    $_POST['id_produk'],
+                                    $_POST['tanggal_bs'],
+                                    $_POST['jumlah'],
+                                    $_POST['keterangan']
+                        ]);
+            } elseif ($action == 'edit') {
+                        $stmt = $pdo->prepare("UPDATE stok_bs SET id_produk=?, tanggal_bs=?, jumlah=?, keterangan=? WHERE id_bs=?");
+                        $stmt->execute([
+                                    $_POST['id_produk'],
+                                    $_POST['tanggal_bs'],
+                                    $_POST['jumlah'],
+                                    $_POST['keterangan'],
+                                    $_POST['id_bs']
+                        ]);
             }
-
-            $pdo->beginTransaction();
-
-            try {
-                        $stmtCek = $pdo->prepare("SELECT stok_saat_ini FROM produk WHERE id_produk = ? FOR UPDATE");
-                        $stmtCek->execute([$id_produk]);
-                        $stok_sekarang = $stmtCek->fetchColumn();
-
-                        if ($stok_sekarang < $jumlah_bs) {
-                                    $pdo->rollBack();
-                                    die("Error: Stok tidak mencukupi untuk dicatat sebagai BS! Stok saat ini: {$stok_sekarang}, Anda mencoba mengurangi: {$jumlah_bs}. <a href='index.php'>Kembali</a>");
-                        }
-
-                        $stmtUpdate = $pdo->prepare("UPDATE produk SET stok_saat_ini = stok_saat_ini - ? WHERE id_produk = ?");
-                        $stmtUpdate->execute([$jumlah_bs, $id_produk]);
-
-                        $stmtInsert = $pdo->prepare("INSERT INTO riwayat_stok (id_produk, jumlah, tipe_transaksi, keterangan) VALUES (?, ?, 'bs', ?)");
-                        $stmtInsert->execute([$id_produk, $jumlah_bs, $keterangan]);
-
-                        $pdo->commit();
-            } catch (Exception $e) {
-                        $pdo->rollBack();
-                        die("Error: Gagal menyimpan data produk BS. " . $e->getMessage());
-            }
-
-            redirect(BASE_URL . 'pages/stok_bs/');
-} else {
-            redirect(BASE_URL);
 }
+
+if (isset($_GET['action']) && $_GET['action'] == 'hapus') {
+            $id_bs = $_GET['id'] ?? null;
+            if ($id_bs) {
+                        $stmt = $pdo->prepare("DELETE FROM stok_bs WHERE id_bs = ?");
+                        $stmt->execute([$id_bs]);
+            }
+}
+
+redirect(BASE_URL . 'pages/stok_bs/');
