@@ -36,7 +36,7 @@
                                     <a href="<?php echo BASE_URL; ?>pages/laporan_penjualan/">Laporan Penjualan</a>
                         </li>
                         <li>
-                                    <a href="#">Laporan Produk BS</a>
+                                    <a href="<?php echo BASE_URL; ?>pages/laporan_bs/">Laporan Produk BS</a>
                         </li>
             </ul>
             <a href="#">
