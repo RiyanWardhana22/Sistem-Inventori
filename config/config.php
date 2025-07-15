@@ -33,3 +33,21 @@ function format_rupiah($angka)
 {
             return "Rp " . number_format($angka, 0, ',', '.');
 }
+
+function format_hari_tanggal($tanggal_mysql)
+{
+            $nama_hari_inggris = date('l', strtotime($tanggal_mysql));
+            $daftar_hari = [
+                        'Sunday'    => 'Minggu',
+                        'Monday'    => 'Senin',
+                        'Tuesday'   => 'Selasa',
+                        'Wednesday' => 'Rabu',
+                        'Thursday'  => 'Kamis',
+                        'Friday'    => 'Jumat',
+                        'Saturday'  => 'Sabtu'
+            ];
+
+            $nama_hari_indonesia = $daftar_hari[$nama_hari_inggris];
+            $tanggal_format = date('d/m/Y', strtotime($tanggal_mysql));
+            return $nama_hari_indonesia . ', ' . $tanggal_format;
+}
