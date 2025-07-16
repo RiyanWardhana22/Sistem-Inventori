@@ -28,16 +28,16 @@ function is_active($path_segment)
             </a>
 
             <?php if ($_SESSION['level'] == 'admin'): ?>
-                        <a href="<?php echo BASE_URL; ?>pages/laporan_opname/" class="<?php echo is_active('pages/laporan_opname') ? 'active' : ''; ?>">
+                        <a href="<?php echo BASE_URL; ?>pages/laporan_opname/" class="<?php echo is_active('pages/laporan_opname/') ? 'active' : ''; ?>">
                                     <i class="fas fa-chart-line fa-fw me-2"></i> Laporan Opname
                         </a>
-                        <a href="<?php echo BASE_URL; ?>pages/laporan_bs_analisis/" class="<?php echo is_active('pages/laporan_bs_analisis') ? 'active' : ''; ?>">
+                        <a href="<?php echo BASE_URL; ?>pages/laporan_bs_analisis/" class="<?php echo is_active('pages/laporan_bs/') ? 'active' : ''; ?>">
                                     <i class="fas fa-chart-pie fa-fw me-2"></i> Analisis Produk BS
                         </a>
-                        <a href="<?php echo BASE_URL; ?>pages/data_staf/" class="<?php echo is_active('pages/data_staf') ? 'active' : ''; ?>">
+                        <a href="<?php echo BASE_URL; ?>pages/data_staf/" class="<?php echo is_active('pages/data_staf/') ? 'active' : ''; ?>">
                                     <i class="fas fa-users fa-fw me-2"></i> Data Staf
                         </a>
-                        <a href="<?php echo BASE_URL; ?>pages/pengaturan_web/" class="<?php echo is_active('pages/pengaturan_web') ? 'active' : ''; ?>">
+                        <a href="<?php echo BASE_URL; ?>pages/pengaturan_web/" class="<?php echo is_active('pages/pengaturan_web/') ? 'active' : ''; ?>">
                                     <i class="fas fa-cog fa-fw me-2"></i> Pengaturan Web
                         </a>
             <?php endif; ?>

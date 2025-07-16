@@ -17,22 +17,19 @@ $stmt->bindValue(3, $offset, PDO::PARAM_INT);
 $stmt->execute();
 ?>
 
-<div class="page-header mb-4">
-            <div class="row align-items-center">
-                        <div class="col-sm-6">
-                                    <h1 class="h3 mb-0">Manajemen Produk</h1>
-                        </div>
-                        <div class="col-sm-6 text-sm-end mt-2 mt-sm-0">
-                                    <a href="tambah.php" class="btn btn-primary">
-                                                <i class="fas fa-plus me-2"></i> Tambah Produk
-                                    </a>
-                        </div>
-            </div>
-</div>
-
 
 <div class="card">
             <div class="card-header">
+                        <div class="row align-items-center mb-4">
+                                    <div class="col-sm-6">
+                                                <h1 class="h3 mb-0">Manajemen Produk</h1>
+                                    </div>
+                                    <div class="col-sm-6 text-sm-end mt-2 mt-sm-0">
+                                                <a href="tambah.php" class="btn btn-outline-primary btn-sm">
+                                                            <i class="fas fa-plus me-2"></i> Tambah
+                                                </a>
+                                    </div>
+                        </div>
                         <form method="GET" action="">
                                     <div class="input-group">
                                                 <input type="text" class="form-control" name="search" placeholder="Cari nama produk..." value="<?php echo htmlspecialchars($search_term); ?>">
@@ -59,9 +56,9 @@ $stmt->execute();
                                                                                     <tr>
                                                                                                 <td><?php echo $no++; ?></td>
                                                                                                 <td><?php echo htmlspecialchars($row['nama_produk']); ?></td>
-                                                                                                <td class="text-center">
-                                                                                                            <a href="edit.php?id=<?php echo $row['id_produk']; ?>" class="btn btn-sm btn-warning">Edit</a>
-                                                                                                            <a href="proses.php?action=hapus&id=<?php echo $row['id_produk']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin?');">Hapus</a>
+                                                                                                <td class="d-flex justify-content-center gap-2">
+                                                                                                            <a href="edit.php?id=<?php echo $row['id_produk']; ?>" class="btn btn-sm btn-outline-warning"><i class="fa-solid fa-pencil"></i></a>
+                                                                                                            <a href="proses.php?action=hapus&id=<?php echo $row['id_produk']; ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Apakah Anda yakin?');"><i class="fa-solid fa-trash"></i></a>
                                                                                                 </td>
                                                                                     </tr>
                                                             <?php
