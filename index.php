@@ -2,32 +2,32 @@
 require_once('config/config.php');
 
 $total_jenis_produk = $pdo->query("SELECT COUNT(id_produk) FROM produk")->fetchColumn();
-$total_stok_keseluruhan = $pdo->query("SELECT SUM(stok_saat_ini) FROM produk")->fetchColumn() ?: 0;
-$total_terjual_hari_ini = $pdo->query("SELECT SUM(jumlah) FROM riwayat_stok WHERE tipe_transaksi = 'keluar' AND DATE(tanggal_transaksi) = CURDATE()")->fetchColumn() ?: 0;
+// $total_stok_keseluruhan = $pdo->query("SELECT SUM(stok_saat_ini) FROM produk")->fetchColumn() ?: 0;
+// $total_terjual_hari_ini = $pdo->query("SELECT SUM(jumlah) FROM riwayat_stok WHERE tipe_transaksi = 'keluar' AND DATE(tanggal_transaksi) = CURDATE()")->fetchColumn() ?: 0;
 
-$query_stok_kritis = $pdo->query("
-    SELECT nama_produk, stok_saat_ini, stok_minimal 
-    FROM produk 
-    WHERE stok_saat_ini <= stok_minimal AND stok_minimal > 0 
-    ORDER BY stok_saat_ini ASC
-");
+// $query_stok_kritis = $pdo->query("
+//     SELECT nama_produk, stok_saat_ini, stok_minimal 
+//     FROM produk 
+//     WHERE stok_saat_ini <= stok_minimal AND stok_minimal > 0 
+//     ORDER BY stok_saat_ini ASC
+// ");
 
-$query_terlaris = $pdo->query("
-    SELECT p.nama_produk, SUM(rs.jumlah) as total_terjual 
-    FROM riwayat_stok rs
-    JOIN produk p ON rs.id_produk = p.id_produk
-    WHERE rs.tipe_transaksi = 'keluar' AND rs.tanggal_transaksi >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
-    GROUP BY p.id_produk, p.nama_produk
-    ORDER BY total_terjual DESC
-    LIMIT 5
-");
+// $query_terlaris = $pdo->query("
+//     SELECT p.nama_produk, SUM(rs.jumlah) as total_terjual 
+//     FROM riwayat_stok rs
+//     JOIN produk p ON rs.id_produk = p.id_produk
+//     WHERE rs.tipe_transaksi = 'keluar' AND rs.tanggal_transaksi >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+//     GROUP BY p.id_produk, p.nama_produk
+//     ORDER BY total_terjual DESC
+//     LIMIT 5
+// ");
 
-$labels_terlaris = [];
-$data_terlaris = [];
-while ($row = $query_terlaris->fetch(PDO::FETCH_ASSOC)) {
-    $labels_terlaris[] = $row['nama_produk'];
-    $data_terlaris[] = $row['total_terjual'];
-}
+// $labels_terlaris = [];
+// $data_terlaris = [];
+// while ($row = $query_terlaris->fetch(PDO::FETCH_ASSOC)) {
+//     $labels_terlaris[] = $row['nama_produk'];
+//     $data_terlaris[] = $row['total_terjual'];
+// }
 ?>
 <?php
 include_once('includes/header.php');

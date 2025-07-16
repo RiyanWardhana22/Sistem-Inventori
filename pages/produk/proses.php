@@ -10,8 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
 
             if ($action == 'tambah') {
-                        $stmt = $pdo->prepare("INSERT INTO produk (nama_produk, kode_sku, harga_jual, stok_minimal) VALUES (?, ?, ?, ?)");
-                        $stmt->execute([$nama_produk, '', 0, 0]);
+                        $stmt = $pdo->prepare("INSERT INTO produk (nama_produk, kode_sku) VALUES (?, ?)");
+                        $stmt->execute([$nama_produk, '']);
             } elseif ($action == 'edit') {
                         $id_produk = $_POST['id_produk'];
                         $stmt = $pdo->prepare("UPDATE produk SET nama_produk = ? WHERE id_produk = ?");

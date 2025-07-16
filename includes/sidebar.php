@@ -26,7 +26,7 @@ $current_page = $_SERVER['REQUEST_URI'];
             <?php if ($_SESSION['level'] == 'admin'): ?>
                         <?php
                         $is_laporan_active = strpos($current_page, 'laporan_opname') !== false ||
-                                    strpos($current_page, 'laporan_bs_analisis') !== false;
+                                    strpos($current_page, 'laporan_bs') !== false;
                         ?>
                         <a href="#laporanSubmenu" data-bs-toggle="collapse" class="dropdown-toggle <?php echo $is_laporan_active ? '' : 'collapsed'; ?>" aria-expanded="<?php echo $is_laporan_active ? 'true' : 'false'; ?>">
                                     <i class="fas fa-chart-line me-2"></i> Laporan & Analisis
@@ -36,7 +36,7 @@ $current_page = $_SERVER['REQUEST_URI'];
                                                 <a href="<?php echo BASE_URL; ?>pages/laporan_opname/" class="<?php echo (strpos($current_page, 'laporan_opname') !== false) ? 'active-child' : ''; ?>">Laporan Opname</a>
                                     </li>
                                     <li>
-                                                <a href="#">Analisis Produk BS</a>
+                                                <a href="<?php echo BASE_URL; ?>pages/laporan_bs/" class="<?php echo (strpos($current_page, 'laporan_bs') !== false) ? 'active-child' : ''; ?>">Analisis Produk BS</a>
                                     </li>
                         </ul>
             <?php endif; ?>
