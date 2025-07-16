@@ -21,7 +21,7 @@ $stmt->execute();
 <div class="card">
             <div class="card-header">
                         <div class="row align-items-center mb-4">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6 my-2">
                                                 <h1 class="h3 mb-0">Manajemen Produk</h1>
                                     </div>
                                     <div class="col-sm-6 text-sm-end mt-2 mt-sm-0">
