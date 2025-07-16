@@ -2,7 +2,13 @@
 include_once(__DIR__ . '/../../includes/header.php');
 ?>
 
-<h1 class="h3 mb-3">Tambah Data Produk BS</h1>
+<div class="page-header mb-4">
+            <div class="row align-items-center">
+                        <div class="col-sm-12">
+                                    <h1 class="h3 mb-0">Tambah Data Produk BS</h1>
+                        </div>
+            </div>
+</div>
 
 <div class="card">
             <div class="card-body">
@@ -34,8 +40,8 @@ include_once(__DIR__ . '/../../includes/header.php');
                                                             <input type="text" class="form-control" id="keterangan" name="keterangan">
                                                 </div>
                                     </div>
-                                    <a href="index.php" class="btn btn-secondary">Batal</a>
                                     <button type="submit" class="btn btn-primary">Simpan Data</button>
+                                    <a href="index.php" class="btn btn-outline-secondary">Batal</a>
                         </form>
             </div>
 </div>
