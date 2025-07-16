@@ -58,21 +58,21 @@ body {
 }
 
 .sidebar .sidebar-brand {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--primary-color);
   text-align: center;
   display: block;
-  margin-bottom: 2rem;
   text-decoration: none;
 }
 
 .sidebar a {
   padding: 12px 15px;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--text-muted-color);
-  display: block;
+  display: flex;
+  align-items: center;
   border-radius: 8px;
   margin-bottom: 5px;
   transition: all 0.2s ease-in-out;
@@ -81,8 +81,9 @@ body {
 }
 
 .sidebar a:hover {
-  background-color: #f0f3ff;
-  color: var(--primary-color);
+  background-color: #e3e5eb;
+  color: var(--text-color);
+  box-shadow: var(--shadow);
 }
 
 .sidebar a.active {
