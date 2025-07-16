@@ -2,6 +2,12 @@
 require_once('config/config.php');
 
 if (isset($_POST['action']) && $_POST['action'] == 'login') {
+            if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+                        $_SESSION['error_message'] = "Permintaan tidak valid.";
+                        redirect('login.php');
+                        exit();
+            }
+
             $username = $_POST['username'];
             $password = $_POST['password'];
 
@@ -10,6 +16,9 @@ if (isset($_POST['action']) && $_POST['action'] == 'login') {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($user && password_verify($password, $user['password'])) {
+                        session_regenerate_id(true);
+                        unset($_SESSION['csrf_token']);
+
                         $_SESSION['user_id'] = $user['id_pengguna'];
                         $_SESSION['nama_lengkap'] = $user['nama_lengkap'];
                         $_SESSION['level'] = $user['level'];

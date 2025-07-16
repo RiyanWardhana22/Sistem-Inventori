@@ -1,5 +1,10 @@
 <?php
 require_once(__DIR__ . '/config/config.php');
+
+if (empty($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 if (isset($_SESSION['user_id'])) {
             header('Location: index.php');
             exit();
@@ -11,7 +16,7 @@ if (isset($_SESSION['user_id'])) {
 <head>
             <meta charset="utf-g">
             <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>Login - <?php echo defined('NAMA_WEBSITE') ? NAMA_WEBSITE : 'Sistem Inventori'; ?></title>
+            <title>Login | <?php echo defined('NAMA_WEBSITE') ? NAMA_WEBSITE : 'Sistem Inventori'; ?></title>
             <link rel="icon" href="<?php echo BASE_URL . (defined('PATH_FAVICON') ? PATH_FAVICON : ''); ?>">
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
             <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -84,13 +89,15 @@ if (isset($_SESSION['user_id'])) {
 
                                                                                                 <form action="auth.php" method="POST">
                                                                                                             <input type="hidden" name="action" value="login">
+                                                                                                            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                                                                                                             <div class="mb-3">
                                                                                                                         <label for="username" class="form-label">Username</label>
-                                                                                                                        <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username" required autofocus>
+                                                                                                                        <input type="text" class="form-control" id="username" name="username" required autofocus>
                                                                                                             </div>
                                                                                                             <div class="mb-3">
                                                                                                                         <label for="password" class="form-label">Password</label>
-                                                                                                                        <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password" required>
+                                                                                                                        <input type="password" class="form-control" id="password" name="password" required>
+                                                                                                                        <i class="fa-solid fa-eye password-toggle-icon" id="password-toggle"></i>
                                                                                                             </div>
                                                                                                             <div class="d-grid mt-4">
                                                                                                                         <button class="btn btn-primary btn-login text-uppercase fw-bold mb-2" type="submit">Login</button>
@@ -103,6 +110,22 @@ if (isset($_SESSION['user_id'])) {
                                     </div>
                         </div>
             </div>
+
+            <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                                    const passwordInput = document.getElementById('password');
+                                    const passwordToggle = document.getElementById('password-toggle');
+
+                                    if (passwordToggle) {
+                                                passwordToggle.addEventListener('click', function() {
+                                                            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                                                            passwordInput.setAttribute('type', type);
+                                                            this.classList.toggle('fa-eye');
+                                                            this.classList.toggle('fa-eye-slash');
+                                                });
+                                    }
+                        });
+            </script>
 </body>
 
 </html>
