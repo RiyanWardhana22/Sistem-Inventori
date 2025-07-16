@@ -2,8 +2,7 @@
 include_once(__DIR__ . '/../../includes/header.php');
 
 $tanggal_akhir = $_GET['tanggal_akhir'] ?? date('Y-m-d');
-$tanggal_mulai = $_GET['tanggal_mulai'] ?? date('Y-m-d', strtotime('-29 days', strtotime($tanggal_akhir)));
-
+$tanggal_mulai = $_GET['tanggal_mulai'] ?? date('Y-m-d', strtotime('-30 days', strtotime($tanggal_akhir)));
 $stmt = $pdo->prepare("
     SELECT 
         p.nama_produk, 
@@ -17,7 +16,6 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([$tanggal_mulai, $tanggal_akhir]);
 $data_bs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 $labels = [];
 $chart_data = [];
 foreach ($data_bs as $item) {
@@ -26,13 +24,16 @@ foreach ($data_bs as $item) {
 }
 ?>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h1 class="h3">Analisis Produk BS (Rusak/Sisa)</h1>
-</div>
-
 <div class="card mb-4">
+  <div class="card-header bg-white border-0 pb-0">
+    <div class="my-2">
+      <h1 class="h3 mb-0">Analisis Produk BS</h1>
+    </div>
+    <hr>
+    <h5 class="card-title mb-0">Filter Laporan</h5>
+  </div>
   <div class="card-body">
-    <form method="GET" action="" class="row g-3 align-items-end">
+    <form method="GET" action="" class="row gx-2 gy-2 align-items-end">
       <div class="col-md-5">
         <label for="tanggal_mulai" class="form-label">Dari Tanggal</label>
         <input type="date" class="form-control" name="tanggal_mulai" value="<?php echo $tanggal_mulai; ?>">
@@ -49,31 +50,35 @@ foreach ($data_bs as $item) {
 </div>
 
 <div class="row">
-  <div class="col-xl-5">
-    <div class="card shadow mb-4">
-      <div class="card-header py-3">
-        <h6 class="m-0 fw-bold text-primary">Komposisi Produk BS</h6>
+  <div class="col-xl-5 mb-4">
+    <div class="card h-100">
+      <div class="card-header">
+        <h6 class="m-0 fw-bold">Komposisi Produk BS</h6>
       </div>
-      <div class="card-body">
-        <div class="chart-pie pt-4">
-          <canvas id="produkBsPieChart"></canvas>
-        </div>
+      <div class="card-body d-flex justify-content-center align-items-center">
+        <?php if (!empty($chart_data)): ?>
+          <div class="chart-pie" style="position: relative; height:300px; width:300px">
+            <canvas id="produkBsPieChart"></canvas>
+          </div>
+        <?php else: ?>
+          <p class="text-muted">Tidak ada data untuk ditampilkan di grafik.</p>
+        <?php endif; ?>
       </div>
     </div>
   </div>
 
-  <div class="col-xl-7">
-    <div class="card shadow mb-4">
-      <div class="card-header py-3">
-        <h6 class="m-0 fw-bold text-primary">Rincian Data BS Periode <?php echo date('d M Y', strtotime($tanggal_mulai)); ?> - <?php echo date('d M Y', strtotime($tanggal_akhir)); ?></h6>
+  <div class="col-xl-7 mb-4">
+    <div class="card h-100">
+      <div class="card-header">
+        <h6 class="m-0 fw-bold">Rincian Data BS Periode <?php echo date('d M Y', strtotime($tanggal_mulai)); ?> - <?php echo date('d M Y', strtotime($tanggal_akhir)); ?></h6>
       </div>
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table table-bordered">
+          <table class="table table-modern">
             <thead>
               <tr>
                 <th>Nama Produk</th>
-                <th class="text-center">Total BS</th>
+                <th class="text-center">Total Kuantitas BS</th>
                 <th class="text-center">Frekuensi Kejadian</th>
               </tr>
             </thead>
@@ -88,7 +93,7 @@ foreach ($data_bs as $item) {
                 <?php endforeach; ?>
               <?php else: ?>
                 <tr>
-                  <td colspan="3" class="text-center">Tidak ada data BS pada periode ini.</td>
+                  <td colspan="3" class="text-center py-4">Tidak ada data BS pada periode ini.</td>
                 </tr>
               <?php endif; ?>
             </tbody>
@@ -104,7 +109,7 @@ foreach ($data_bs as $item) {
     var ctx = document.getElementById("produkBsPieChart");
     if (ctx) {
       new Chart(ctx, {
-        type: 'pie',
+        type: 'doughnut',
         data: {
           labels: <?php echo json_encode($labels); ?>,
           datasets: [{
@@ -116,21 +121,13 @@ foreach ($data_bs as $item) {
         },
         options: {
           maintainAspectRatio: false,
-          tooltips: {
-            backgroundColor: "rgb(255,255,255)",
-            bodyFontColor: "#858796",
-            borderColor: '#dddfeb',
-            borderWidth: 1,
-            xPadding: 15,
-            yPadding: 15,
-            displayColors: false,
-            caretPadding: 10,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'bottom'
+            }
           },
-          legend: {
-            display: true,
-            position: 'bottom'
-          },
-          cutoutPercentage: 0,
+          cutout: '80%',
         },
       });
     }

@@ -114,6 +114,7 @@ body {
   border-collapse: collapse;
   width: 100%;
 }
+
 .table-modern thead th {
   background-color: transparent;
   border-bottom: 2px solid var(--border-color);
