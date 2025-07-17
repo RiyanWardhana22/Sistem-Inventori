@@ -13,13 +13,9 @@ function is_active($path_segment)
             <a href="<?php echo BASE_URL; ?>" class="<?php echo (strpos($_SERVER['REQUEST_URI'], '/pages/') === false) ? 'active' : ''; ?>">
                         <i class="fas fa-tachometer-alt fa-fw me-2"></i> <span>Dashboard</span>
             </a>
-
-            <?php if ($_SESSION['level'] == 'admin'): ?>
-                        <a href="<?php echo BASE_URL; ?>pages/produk/" class="<?php echo is_active('pages/produk') ? 'active' : ''; ?>">
-                                    <i class="fas fa-box-open fa-fw me-2"></i> <span>Manajemen Produk</span>
-                        </a>
-            <?php endif; ?>
-
+            <a href="<?php echo BASE_URL; ?>pages/produk/" class="<?php echo is_active('pages/produk') ? 'active' : ''; ?>">
+                        <i class="fas fa-box-open fa-fw me-2"></i> <span>Manajemen Produk</span>
+            </a>
             <a href="<?php echo BASE_URL; ?>pages/stok_opname/" class="<?php echo is_active('pages/stok_opname') ? 'active' : ''; ?>">
                         <i class="fas fa-clipboard-check fa-fw me-2"></i> <span>Stok Opname</span>
             </a>
