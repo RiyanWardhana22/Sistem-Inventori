@@ -32,23 +32,23 @@ include_once(__DIR__ . '/../../includes/header.php');
                                                             </select>
                                                 </div>
                                                 <div class="col-md-6 mb-3">
-                                                            <label for="kode" class="form-label">Kode (Opsional)</label>
+                                                            <label for="kode" class="form-label">Kode</label>
                                                             <input type="text" class="form-control" id="kode" name="kode">
                                                 </div>
                                                 <div class="col-md-6 mb-3">
-                                                            <label for="stok_awal" class="form-label">Stok Awal (Opsional)</label>
+                                                            <label for="stok_awal" class="form-label">Stok Awal</label>
                                                             <input type="text" class="form-control" id="stok_awal" name="stok_awal">
                                                 </div>
                                                 <div class="col-md-4 mb-3">
-                                                            <label for="stok_akhir" class="form-label">Stok Akhir (Opsional)</label>
+                                                            <label for="stok_akhir" class="form-label">Stok Akhir</label>
                                                             <input type="text" class="form-control" id="stok_akhir" name="stok_akhir">
                                                 </div>
                                                 <div class="col-md-4 mb-3">
-                                                            <label for="penjualan" class="form-label">Penjualan (Opsional)</label>
+                                                            <label for="penjualan" class="form-label">Penjualan</label>
                                                             <input type="text" class="form-control" id="penjualan" name="penjualan">
                                                 </div>
                                                 <div class="col-md-4 mb-3">
-                                                            <label for="bs" class="form-label">BS (Opsional)</label>
+                                                            <label for="bs" class="form-label">BS</label>
                                                             <input type="text" class="form-control" id="bs" name="bs">
                                                 </div>
                                     </div>

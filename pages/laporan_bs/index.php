@@ -53,7 +53,7 @@ foreach ($data_bs as $item) {
   <div class="col-xl-5 mb-4">
     <div class="card h-100">
       <div class="card-header">
-        <h6 class="m-0 fw-bold">Komposisi Produk BS</h6>
+        <h6 class="m-0 fw-bold">Analisis Produk BS</h6>
       </div>
       <div class="card-body d-flex justify-content-center align-items-center">
         <?php if (!empty($chart_data)): ?>
@@ -79,7 +79,7 @@ foreach ($data_bs as $item) {
               <tr>
                 <th>Nama Produk</th>
                 <th class="text-center">Total Kuantitas BS</th>
-                <th class="text-center">Frekuensi Kejadian</th>
+                <th class="text-center">Total Kejadian</th>
               </tr>
             </thead>
             <tbody>
