@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 28, 2025 at 08:01 AM
+-- Generation Time: Aug 16, 2025 at 06:32 AM
 -- Server version: 8.0.42
 -- PHP Version: 8.3.22
 
@@ -24,13 +24,87 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `bahan`
+--
+
+CREATE TABLE `bahan` (
+  `nama_bahan` varchar(255) NOT NULL,
+  `jumlah_bahan` int NOT NULL,
+  `satuan_jumlah` varchar(255) NOT NULL,
+  `tanggal_expired` date DEFAULT NULL,
+  `status` enum('Layak','Rusak','Expired') NOT NULL DEFAULT 'Layak'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `bahan`
+--
+
+INSERT INTO `bahan` (`nama_bahan`, `jumlah_bahan`, `satuan_jumlah`, `tanggal_expired`, `status`) VALUES
+('Sumpit', 10, 'buah', NULL, 'Rusak'),
+('Tepung Kunci', 10, 'kg', '2026-03-12', 'Layak'),
+('Tepung Maizena', 15, 'kg', '2026-01-01', 'Layak'),
+('Tepung Segitiga Biru', 40, 'kg', '2025-12-31', 'Expired'),
+('Toples 300ml', 20, 'buah', NULL, 'Layak');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bs_bahan`
+--
+
+CREATE TABLE `bs_bahan` (
+  `id_bs` int NOT NULL,
+  `nama_bahan` varchar(255) NOT NULL,
+  `tanggal_bs` date DEFAULT NULL,
+  `jumlah_bahan` int NOT NULL,
+  `satuan_jumlah` varchar(255) NOT NULL,
+  `keterangan` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `bs_bahan`
+--
+
+INSERT INTO `bs_bahan` (`id_bs`, `nama_bahan`, `tanggal_bs`, `jumlah_bahan`, `satuan_jumlah`, `keterangan`) VALUES
+(12, 'Tepung Segitiga Biru', '2025-08-13', 10, 'kg', 'Bahan Expired'),
+(13, 'Sumpit', '2025-08-13', 5, 'buah', 'Rusak');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `opname_bahan`
+--
+
+CREATE TABLE `opname_bahan` (
+  `id_opname` int NOT NULL,
+  `nama_bahan` varchar(255) NOT NULL,
+  `tanggal_opname` date NOT NULL,
+  `kode` varchar(255) DEFAULT NULL,
+  `stok_awal` varchar(255) DEFAULT NULL,
+  `stok_akhir` varchar(255) DEFAULT NULL,
+  `penggunaan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `bs` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `opname_bahan`
+--
+
+INSERT INTO `opname_bahan` (`id_opname`, `nama_bahan`, `tanggal_opname`, `kode`, `stok_awal`, `stok_akhir`, `penggunaan`, `bs`) VALUES
+(2, 'Sumpit', '2025-08-13', NULL, '10', '0', '5', '5'),
+(3, 'Tepung Segitiga Biru', '2025-08-13', 'OP0001', '40', '20', '10', '10');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `opname_produk`
 --
 
 CREATE TABLE `opname_produk` (
   `id_opname` int NOT NULL,
-  `id_produk` int NOT NULL,
+  `kode_produk` varchar(50) NOT NULL,
   `tanggal_opname` date NOT NULL,
+  `nama_produk` varchar(255) NOT NULL,
   `kode` varchar(255) DEFAULT NULL,
   `stok_awal` varchar(255) DEFAULT NULL,
   `stok_akhir` varchar(255) DEFAULT NULL,
@@ -42,9 +116,12 @@ CREATE TABLE `opname_produk` (
 -- Dumping data for table `opname_produk`
 --
 
-INSERT INTO `opname_produk` (`id_opname`, `id_produk`, `tanggal_opname`, `kode`, `stok_awal`, `stok_akhir`, `penjualan`, `bs`) VALUES
-(4, 8, '2025-07-16', '', '', '6', '', ''),
-(5, 11, '2025-07-16', '', '', '6', '', '');
+INSERT INTO `opname_produk` (`id_opname`, `kode_produk`, `tanggal_opname`, `nama_produk`, `kode`, `stok_awal`, `stok_akhir`, `penjualan`, `bs`) VALUES
+(3, '98687', '2025-08-12', 'Kue Pisang', '25KPIS', '43', '16', '14', '13'),
+(6, '3344', '2025-08-13', 'Kue Coklat', '25KCOK', '50', '25', '20', '5'),
+(7, '1001', '2025-08-13', 'Kue Strawberry', '25KSTW', '50', '45', '0', '5'),
+(8, '1002', '2025-08-13', 'Bolu Bakar', '25BBKR', '25', '20', '0', '5'),
+(9, '1003', '2025-08-13', 'Kue Ulang Tahun', '25KUTH', '15', '0', '15', '0');
 
 -- --------------------------------------------------------
 
@@ -86,7 +163,9 @@ CREATE TABLE `pengguna` (
 
 INSERT INTO `pengguna` (`id_pengguna`, `username`, `password`, `nama_lengkap`, `level`) VALUES
 (1, 'riyan22', '$2y$10$5BuuEqYOjpnW4jjDxuiYsO4IDigV5QBhGgXB5KuwdN1LtRPXG2gqC', 'Riyan Wardhana', 'admin'),
-(2, 'oka', '$2y$10$LKZddb1Ko0WSAGLEjX.tve0lfmAZv1je3KRxBZiJO1CVCoW8rKEJq', 'Oka Gaming', 'pegawai');
+(2, 'oka', '$2y$10$LKZddb1Ko0WSAGLEjX.tve0lfmAZv1je3KRxBZiJO1CVCoW8rKEJq', 'Oka Gaming', 'admin'),
+(3, 'yusuf_aja', '$2y$10$BQLUoyYsluDeASr7BLrbqezaOvXN8aMPN2d9z6odTwIzxz96.zIo6', 'AHMAD YUSUF AL-HAFIZ', 'admin'),
+(4, 'awak', '$2y$10$RmOhNcUIg.pIP2hHP60UpOMgd.2NlrNyQafRuk3Bj9vIxnWit4jZy', 'awak', 'pegawai');
 
 -- --------------------------------------------------------
 
@@ -95,18 +174,25 @@ INSERT INTO `pengguna` (`id_pengguna`, `username`, `password`, `nama_lengkap`, `
 --
 
 CREATE TABLE `produk` (
-  `id_produk` int NOT NULL,
-  `kode_sku` varchar(50) DEFAULT NULL,
-  `nama_produk` varchar(255) NOT NULL
+  `kode_produk` varchar(50) NOT NULL,
+  `nama_produk` varchar(255) NOT NULL,
+  `jumlah_produk` int NOT NULL,
+  `tanggal_produksi` date NOT NULL,
+  `tanggal_expired` date NOT NULL,
+  `harga_produk` int NOT NULL,
+  `keterangan` enum('Layak','Expired') NOT NULL DEFAULT 'Layak'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `produk`
 --
 
-INSERT INTO `produk` (`id_produk`, `kode_sku`, `nama_produk`) VALUES
-(8, '', 'Roti Coklat'),
-(11, '', 'Roti Strawbery');
+INSERT INTO `produk` (`kode_produk`, `nama_produk`, `jumlah_produk`, `tanggal_produksi`, `tanggal_expired`, `harga_produk`, `keterangan`) VALUES
+('1001', 'Kue Strawberry', 50, '2025-08-15', '2025-10-15', 15000, 'Layak'),
+('1002', 'Bolu Bakar', 25, '2025-08-13', '2025-08-20', 20000, 'Layak'),
+('1003', 'Kue Ulang Tahun', 15, '2025-10-15', '2025-12-15', 45000, 'Layak'),
+('3344', 'Kue Coklat', 50, '2025-08-12', '2025-08-17', 10000, 'Layak'),
+('98687', 'Kue Pisang', 43, '2025-08-15', '2025-10-15', 25000, 'Layak');
 
 -- --------------------------------------------------------
 
@@ -116,7 +202,7 @@ INSERT INTO `produk` (`id_produk`, `kode_sku`, `nama_produk`) VALUES
 
 CREATE TABLE `riwayat_stok` (
   `id_riwayat` int NOT NULL,
-  `id_produk` int DEFAULT NULL,
+  `kode_produk` varchar(50) NOT NULL,
   `jumlah` int NOT NULL,
   `tipe_transaksi` enum('masuk','keluar','bs','penyesuaian') NOT NULL,
   `keterangan` text,
@@ -131,7 +217,7 @@ CREATE TABLE `riwayat_stok` (
 
 CREATE TABLE `stok_bs` (
   `id_bs` int NOT NULL,
-  `id_produk` int NOT NULL,
+  `kode_produk` varchar(50) NOT NULL,
   `tanggal_bs` date NOT NULL,
   `jumlah` int NOT NULL,
   `keterangan` text
@@ -141,20 +227,42 @@ CREATE TABLE `stok_bs` (
 -- Dumping data for table `stok_bs`
 --
 
-INSERT INTO `stok_bs` (`id_bs`, `id_produk`, `tanggal_bs`, `jumlah`, `keterangan`) VALUES
-(4, 8, '2025-07-16', 2, ''),
-(5, 11, '2025-07-16', 1, '');
+INSERT INTO `stok_bs` (`id_bs`, `kode_produk`, `tanggal_bs`, `jumlah`, `keterangan`) VALUES
+(7, '98687', '2025-08-12', 13, 'Expired'),
+(8, '1001', '2025-08-12', 5, 'Rusak'),
+(9, '1002', '2025-08-13', 5, 'Gosong'),
+(10, '3344', '2025-08-13', 5, 'Barang rusak karena terjatuh');
 
 --
 -- Indexes for dumped tables
 --
 
 --
+-- Indexes for table `bahan`
+--
+ALTER TABLE `bahan`
+  ADD PRIMARY KEY (`nama_bahan`);
+
+--
+-- Indexes for table `bs_bahan`
+--
+ALTER TABLE `bs_bahan`
+  ADD PRIMARY KEY (`id_bs`),
+  ADD KEY `nama_bahan` (`nama_bahan`);
+
+--
+-- Indexes for table `opname_bahan`
+--
+ALTER TABLE `opname_bahan`
+  ADD PRIMARY KEY (`id_opname`),
+  ADD KEY `nama_bahan` (`nama_bahan`);
+
+--
 -- Indexes for table `opname_produk`
 --
 ALTER TABLE `opname_produk`
   ADD PRIMARY KEY (`id_opname`),
-  ADD KEY `id_produk` (`id_produk`);
+  ADD KEY `id_opname` (`kode_produk`);
 
 --
 -- Indexes for table `pengaturan`
@@ -174,31 +282,43 @@ ALTER TABLE `pengguna`
 -- Indexes for table `produk`
 --
 ALTER TABLE `produk`
-  ADD PRIMARY KEY (`id_produk`);
+  ADD PRIMARY KEY (`kode_produk`);
 
 --
 -- Indexes for table `riwayat_stok`
 --
 ALTER TABLE `riwayat_stok`
   ADD PRIMARY KEY (`id_riwayat`),
-  ADD KEY `id_produk` (`id_produk`);
+  ADD KEY `id_riwayat` (`kode_produk`);
 
 --
 -- Indexes for table `stok_bs`
 --
 ALTER TABLE `stok_bs`
   ADD PRIMARY KEY (`id_bs`),
-  ADD KEY `id_produk` (`id_produk`);
+  ADD KEY `id_bs` (`kode_produk`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
+-- AUTO_INCREMENT for table `bs_bahan`
+--
+ALTER TABLE `bs_bahan`
+  MODIFY `id_bs` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `opname_bahan`
+--
+ALTER TABLE `opname_bahan`
+  MODIFY `id_opname` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `opname_produk`
 --
 ALTER TABLE `opname_produk`
-  MODIFY `id_opname` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_opname` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `pengaturan`
@@ -210,13 +330,7 @@ ALTER TABLE `pengaturan`
 -- AUTO_INCREMENT for table `pengguna`
 --
 ALTER TABLE `pengguna`
-  MODIFY `id_pengguna` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `produk`
---
-ALTER TABLE `produk`
-  MODIFY `id_produk` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_pengguna` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `riwayat_stok`
@@ -228,29 +342,7 @@ ALTER TABLE `riwayat_stok`
 -- AUTO_INCREMENT for table `stok_bs`
 --
 ALTER TABLE `stok_bs`
-  MODIFY `id_bs` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `opname_produk`
---
-ALTER TABLE `opname_produk`
-  ADD CONSTRAINT `opname_produk_ibfk_1` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`) ON DELETE CASCADE;
-
---
--- Constraints for table `riwayat_stok`
---
-ALTER TABLE `riwayat_stok`
-  ADD CONSTRAINT `riwayat_stok_ibfk_1` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`) ON DELETE CASCADE;
-
---
--- Constraints for table `stok_bs`
---
-ALTER TABLE `stok_bs`
-  ADD CONSTRAINT `stok_bs_ibfk_1` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`) ON DELETE CASCADE;
+  MODIFY `id_bs` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

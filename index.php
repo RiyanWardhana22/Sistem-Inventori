@@ -4,14 +4,14 @@ include_once('includes/header.php');
 
 $total_opname_hari_ini = $pdo->query("SELECT COUNT(id_opname) FROM opname_produk WHERE tanggal_opname = CURDATE()")->fetchColumn() ?: 0;
 $total_bs_hari_ini = $pdo->query("SELECT SUM(jumlah) FROM stok_bs WHERE tanggal_bs = CURDATE()")->fetchColumn() ?: 0;
-$total_jenis_produk = $pdo->query("SELECT COUNT(id_produk) FROM produk")->fetchColumn() ?: 0;
+$total_jenis_produk = $pdo->query("SELECT COUNT(kode_produk) FROM produk")->fetchColumn() ?: 0;
 
 $query_bs_chart = $pdo->query("
     SELECT p.nama_produk, SUM(bs.jumlah) as total_kuantitas
     FROM stok_bs bs
-    JOIN produk p ON bs.id_produk = p.id_produk
+    JOIN produk p ON bs.kode_produk = p.kode_produk
     WHERE bs.tanggal_bs >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
-    GROUP BY p.id_produk, p.nama_produk
+    GROUP BY p.kode_produk, p.nama_produk
     ORDER BY total_kuantitas DESC
     LIMIT 5
 ");
@@ -22,8 +22,8 @@ while ($row = $query_bs_chart->fetch(PDO::FETCH_ASSOC)) {
     $data_bs_chart[] = $row['total_kuantitas'];
 }
 
-$query_opname_terakhir = $pdo->query("SELECT op.*, p.nama_produk FROM opname_produk op JOIN produk p ON op.id_produk = p.id_produk ORDER BY op.id_opname DESC LIMIT 4");
-$query_bs_terakhir = $pdo->query("SELECT bs.*, p.nama_produk FROM stok_bs bs JOIN produk p ON bs.id_produk = p.id_produk ORDER BY bs.id_bs DESC LIMIT 4");
+$query_opname_terakhir = $pdo->query("SELECT op.*, p.nama_produk FROM opname_produk op JOIN produk p ON op.kode_produk = p.kode_produk ORDER BY op.id_opname DESC LIMIT 4");
+$query_bs_terakhir = $pdo->query("SELECT bs.*, p.nama_produk FROM stok_bs bs JOIN produk p ON bs.kode_produk = p.kode_produk ORDER BY bs.id_bs DESC LIMIT 4");
 ?>
 
 <div class="page-header mb-4">
@@ -32,10 +32,10 @@ $query_bs_terakhir = $pdo->query("SELECT bs.*, p.nama_produk FROM stok_bs bs JOI
             <h1 class="h3 mb-0">Dashboard</h1>
         </div>
         <div class="col-sm-6 text-sm-end mt-2 mt-sm-0">
-            <a href="<?php echo BASE_URL; ?>pages/stok_opname/tambah.php" class="btn btn-primary me-2">
+            <a href="<?php echo BASE_URL; ?>pages/stok_opname/produk/tambah.php" class="btn btn-primary me-2">
                 <i class="fas fa-plus me-2"></i>Tambah Opname
             </a>
-            <a href="<?php echo BASE_URL; ?>pages/stok_bs/tambah.php" class="btn btn-danger">
+            <a href="<?php echo BASE_URL; ?>pages/stok_bs/produk/tambah.php" class="btn btn-danger">
                 <i class="fas fa-trash me-2"></i>Tambah BS
             </a>
         </div>
@@ -91,7 +91,7 @@ $query_bs_terakhir = $pdo->query("SELECT bs.*, p.nama_produk FROM stok_bs bs JOI
                 <h5 class="card-title mb-0">Top 5 Produk BS (7 Hari Terakhir)</h5>
             </div>
             <div class="card-body">
-                <div class="chart-container" style="position: relative; height:300px">
+                <div class="chart-container" style="position: relative; height:380px">
                     <canvas id="produkBsChart"></canvas>
                 </div>
             </div>
@@ -137,13 +137,24 @@ $query_bs_terakhir = $pdo->query("SELECT bs.*, p.nama_produk FROM stok_bs bs JOI
         justify-content: center;
         font-size: 1.2rem;
     }
+    
+    .chart-container {
+        min-height: 380px;
+    }
+    
+    #produkBsChart {
+        width: 100% !important;
+        height: 100% !important;
+    }
 </style>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const chartCanvas = document.getElementById("produkBsChart");
         if (chartCanvas) {
-            new Chart(chartCanvas, {
+            const ctx = chartCanvas.getContext('2d');
+            new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: <?php echo json_encode($labels_bs); ?>,
@@ -151,29 +162,79 @@ $query_bs_terakhir = $pdo->query("SELECT bs.*, p.nama_produk FROM stok_bs bs JOI
                         label: "Total Kuantitas BS",
                         backgroundColor: "rgba(231, 74, 59, 0.8)",
                         borderColor: "#e74a3b",
-                        borderRadius: 4,
+                        borderWidth: 1,
+                        borderRadius: 6,
                         data: <?php echo json_encode($data_bs_chart); ?>,
-                    }],
+                    }]
                 },
                 options: {
                     maintainAspectRatio: false,
+                    responsive: true,
                     scales: {
                         y: {
                             beginAtZero: true,
                             ticks: {
-                                callback: function(value) {
-                                    if (Number.isInteger(value)) {
-                                        return value;
-                                    }
+                                precision: 0,
+                                font: {
+                                    size: 12,
+                                    family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
                                 },
-                                stepSize: 1
+                                color: '#6c757d'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)',
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 12,
+                                    family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                                },
+                                color: '#6c757d'
+                            },
+                            grid: {
+                                display: false,
+                                drawBorder: false
                             }
                         }
                     },
                     plugins: {
                         legend: {
                             display: false
+                        },
+                        tooltip: {
+                            backgroundColor: '#343a40',
+                            titleFont: {
+                                size: 14,
+                                family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                            },
+                            bodyFont: {
+                                size: 12,
+                                family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                            },
+                            padding: 12,
+                            cornerRadius: 6,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Jumlah: ' + context.raw + ' pcs';
+                                }
+                            }
                         }
+                    },
+                    layout: {
+                        padding: {
+                            top: 20,
+                            right: 20,
+                            bottom: 20,
+                            left: 20
+                        }
+                    },
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeOutQuart'
                     }
                 }
             });
